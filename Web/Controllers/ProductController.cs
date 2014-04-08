@@ -25,7 +25,7 @@ namespace Web.Controllers
             var result = new ProductsListViewModel
             {
                 Products = repository.Products
-                .Where(p => p.Category == null || p.Category == category)
+                .Where(p => category == null || p.Category == category)
                 .OrderBy(x => x.ProductId)
                 .Skip(PageSize * (page - 1))
                 .Take(PageSize),
