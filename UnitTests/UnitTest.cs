@@ -136,5 +136,28 @@ namespace UnitTests
             Assert.IsTrue(result[1] == "Oranges");
             Assert.IsTrue(result[2] == "Plums");
         }
+
+        [Test]
+        public void Indicates_Selected_Category()
+        {
+            // Arrange
+            var catMock = new Mock<IProductRepository>();
+
+            catMock.Setup(x => x.Products).Returns(new Product[]
+            {
+                new Product{ ProductId = 1, Name = "P1", Category = "Apples"}, 
+                new Product{ ProductId = 2, Name = "P2", Category = "Oranges"},
+                new Product{ ProductId = 3, Name = "P3", Category = "Bananas"}
+            }.AsQueryable());
+
+            var controller = new NavController(catMock.Object);
+            var catToSelect = "Apples";
+
+            // Act
+            string result = controller.Menu(catToSelect).ViewBag.SelectedCategory;
+
+            // Assert
+            Assert.AreEqual(catToSelect, result);
+        }
     }
 }

@@ -16,14 +16,14 @@ namespace Web
             routes.MapRoute(
                 null,
                 "",
-                new { controller = "Product", action = "List", category = (string)null, page = 1 },
-                new { page = @"\d+" }
+                new { controller = "Product", action = "List", category = (string)null, page = 1 }
             );
 
             routes.MapRoute(
-                name: null,
-                url: "Page{page}",
-                defaults: new { controller = "Product", action = "List" }
+                null,
+                "Page{page}",
+                new { controller = "Product", action = "List", category = (string)null },
+                new { page = @"\d+" }
             );
 
             routes.MapRoute(

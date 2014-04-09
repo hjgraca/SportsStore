@@ -16,8 +16,10 @@ namespace Web.Controllers
             this.repository = repository;
         }
 
-        public PartialViewResult Menu()
+        public PartialViewResult Menu(string category = null)
         {
+            ViewBag.SelectedCategory = category;
+
             return PartialView(repository.Products
                 .Select(x => x.Category)
                 .Distinct()
