@@ -159,5 +159,25 @@ namespace UnitTests
             // Assert
             Assert.AreEqual(catToSelect, result);
         }
+
+        [Test]
+        public void Generate_Category_Specific_Product_Count()
+        {
+            // arrange
+            var controller = new ProductController(mock.Object);
+            controller.PageSize = 3;
+
+            // Act
+            var cat1 = (ProductsListViewModel)controller.List("Cat1").Model;
+            var cat2 = (ProductsListViewModel)controller.List("Cat2").Model;
+            var cat3 = (ProductsListViewModel)controller.List("Cat3").Model;
+            var all = (ProductsListViewModel)controller.List(null).Model;
+
+            // Assert 
+            Assert.AreEqual(cat1.PagingInfo.TotalItems, 2);
+            Assert.AreEqual(cat2.PagingInfo.TotalItems, 2);
+            Assert.AreEqual(cat3.PagingInfo.TotalItems, 1);
+            Assert.AreEqual(all.PagingInfo.TotalItems, 5);
+        }
     }
 }

@@ -33,7 +33,7 @@ namespace Web.Controllers
                 {
                     CurrentPage = page,
                     ItemsPerPage = PageSize,
-                    TotalItems = repository.Products.Count()
+                    TotalItems = category == null ?  repository.Products.Count() : repository.Products.Count(p => p.Category == category)
                 },
                 CurrentCategory = category
             };
