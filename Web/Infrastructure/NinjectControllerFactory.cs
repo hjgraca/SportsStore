@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -9,6 +10,8 @@ using Domain.Concrete;
 using Domain.Entities;
 using Moq;
 using Ninject;
+using Web.Infrastructure.Abstract;
+using Web.Infrastructure.Concrete;
 
 namespace Web.Infrastructure
 {
@@ -43,6 +46,15 @@ namespace Web.Infrastructure
             ////ninjectkernel.Bind<IProductRepository>().ToConstant(mock.Object);
 
             ninjectkernel.Bind<IProductRepository>().To<EFProductRepository>();
+
+            EmailSettings emailSettings = new EmailSettings
+            {
+                WriteAsFile = bool.Parse(ConfigurationManager.AppSettings["Email.WriteAsFile"] ?? "false")
+            };
+
+            ninjectkernel.Bind<IOrderProcessor>().To<EmailOrderProcessor>().WithConstructorArgument("settings", emailSettings);
+
+            ninjectkernel.Bind<IAuthProvider>().To<FormsAuthProvider>();
         }
     }
 }
